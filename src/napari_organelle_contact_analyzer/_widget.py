@@ -106,6 +106,11 @@ class OrganelleContactWidget(QWidget):
         contacts = (dist1 < self.threshold) & mask2 | (dist2 < self.threshold) & mask1
         contact_count = np.sum(contacts)
 
+        if 'Contacts' in self.viewer.layers:
+            self.viewer.layers['Contacts'].data = contacts
+        else:
+            self.viewer.add_labels(contacts, name='Contacts')
+
         # Calculate overlap metric (Jaccard index)
         intersection = np.logical_and(mask1, mask2).sum()
         union = np.logical_or(mask1, mask2).sum()
